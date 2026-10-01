@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio | Full-stack developer with a security mindset</title>
+  <meta name="description" content="Full-stack web developer (Laravel + Vue) with a networking and cybersecurity background. Open to internships and OJT.">
+  <meta name="theme-color" content="#070b14" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f3f7fb" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070b14'/%3E%3Cpath d='M9 22l5-6-5-6M16 23h8' stroke='%2334d399' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>
+    // Apply saved/system theme before paint (dark is the default look).
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light") document.documentElement.classList.add("dark");
+      } catch (e) { document.documentElement.classList.add("dark"); }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: "class" };</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="bg-fx" aria-hidden="true"></div>
+  <canvas id="net" aria-hidden="true"></canvas>
+
+  <div id="app" v-cloak>
+    <div class="progress" ref="bar" aria-hidden="true"></div>
+
+    <header class="nav">
+      <nav class="mx-auto max-w-[68rem] px-5 h-16 flex items-center justify-between" aria-label="Primary">
+        <a href="#top" class="logo text-lg">&lt;{{ initials }}<span class="muted">/</span>&gt;</a>
+        <ul class="hidden md:flex items-center gap-7">
+          <li v-for="n in nav" :key="n.id"><a :href="'#' + n.id" class="link" :class="{ active: active === n.id }">{{ n.label }}</a></li>
+        </ul>
+        <div class="flex items-center gap-2">
+          <a v-if="c.resume" :href="c.resume" download class="btn btn-ghost btn-sm hidden sm:inline-flex">Résumé ↓</a>
+          <button class="icon-btn" @click="toggleTheme" :aria-label="dark ? 'Switch to light theme' : 'Switch to dark theme'">
+            <svg v-if="dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+          </button>
+        </div>
+      </nav>
+      <ul class="md:hidden flex gap-5 overflow-x-auto px-5 pb-2 -mt-1" aria-label="Sections">
+        <li v-for="n in nav" :key="n.id" class="shrink-0"><a :href="'#' + n.id" class="link" :class="{ active: active === n.id }">{{ n.label }}</a></li>
+      </ul>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section id="top" class="hero mx-auto max-w-[68rem] px-5 pt-16 pb-12 md:pt-24 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
+        <div class="min-w-0">
+          <p class="status-pill" v-reveal><span class="pulse"></span>{{ c.openTo }} · {{ c.location }}</p>
+          <h1 class="hero-title mt-6" v-reveal="80">
+            Hi, I'm <span class="grad">{{ firstName }}</span>.
+          </h1>
+          <p class="font-display mt-6 text-xl sm:text-2xl font-semibold leading-snug max-w-xl" v-reveal="160">{{ c.headline }}</p>
+          <p class="muted mt-4 max-w-xl leading-relaxed" v-reveal="240">{{ c.subhead }}</p>
+          <div class="mt-8 flex flex-wrap gap-3" v-reveal="320">
+            <a href="#projects" class="btn btn-primary">View projects →</a>
+            <a href="#contact" class="btn btn-ghost">Get in touch</a>
+            <a v-if="c.links.github" :href="c.links.github" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub ↗</a>
+          </div>
+        </div>
+
+        <div class="terminal" v-reveal="200" role="img" :aria-label="'Terminal summary: ' + c.headline">
+          <div class="term-bar" aria-hidden="true">
+            <i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i>
+            <span class="mono text-[11px] ml-3" style="color:#5f7391">~/portfolio — zsh</span>
+          </div>
+          <div class="term-body" aria-hidden="true">
+            <div v-for="(l, i) in typed" :key="i">
+              <div><span class="p">❯</span> <span class="k">{{ l.cmd }}</span></div>
+              <div class="o">{{ l.out }}</div>
+            </div>
+            <div><span class="p">❯</span> <span class="k">{{ typingCmd }}</span><span class="caret"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <p class="eyebrow" v-reveal>about</p>
+        <h2 class="section-title" v-reveal="60">Developer first, with a defender's eye.</h2>
+        <div class="grid md:grid-cols-5 gap-6">
+          <div class="md:col-span-3 space-y-4 leading-relaxed" v-reveal="100">
+            <p v-for="(p, i) in c.about" :key="i" :class="i ? 'muted' : 'text-lg'">{{ p }}</p>
+          </div>
+          <div class="md:col-span-2 card" v-reveal="180">
+            <p class="eyebrow mb-3">what I bring</p>
+            <ul class="space-y-3 text-sm">
+              <li v-for="s in c.strengths" :key="s" class="flex gap-3 items-start">
+                <span class="mono text-[11px] mt-0.5 chip">✓</span><span>{{ s }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-10" v-reveal>
+          <p class="eyebrow mb-4">education</p>
+          <ol class="tl edu">
+            <li v-for="e in c.education" :key="e.school">
+              <p class="font-display font-semibold text-lg leading-tight">{{ e.degree }}</p>
+              <p class="muted">{{ e.school }} <span class="tag">· {{ e.period }}</span></p>
+              <p v-if="e.note" class="muted text-sm mt-1 max-w-2xl">{{ e.note }}</p>
+              <ul v-if="e.highlights.length" class="flex flex-wrap gap-2 mt-2"><li v-for="h in e.highlights" :key="h" class="chip">{{ h }}</li></ul>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="section">
+        <p class="eyebrow" v-reveal>skills</p>
+        <h2 class="section-title" v-reveal="60">Grouped by what I use them for.</h2>
+        <div class="bento">
+          <div v-for="(g, i) in c.skills" :key="g.group" v-reveal="i * 70"
+               class="card hover" :class="g.featured ? 'sec-card b-full' : 'b-half'">
+            <div class="group-head">
+              <span class="group-ico">{{ g.icon || String(i + 1).padStart(2, "0") }}</span>
+              <h3 class="font-display font-semibold" :class="g.featured ? 'text-2xl' : 'text-lg'">{{ g.group }}</h3>
+              <span v-if="g.featured" class="badge ml-auto">my differentiator</span>
+            </div>
+            <p v-if="g.blurb" class="muted text-sm leading-relaxed mb-4 max-w-2xl">{{ g.blurb }}</p>
+            <ul class="flex flex-wrap gap-2">
+              <li v-for="s in g.items" :key="s" class="chip">{{ s }}</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="section">
+        <p class="eyebrow" v-reveal>projects</p>
+        <h2 class="section-title" v-reveal="60">Proof, not promises.</h2>
+        <div class="space-y-5">
+          <article v-for="(p, idx) in c.projects" :key="p.title" class="card hover project" v-reveal @mousemove="glow">
+            <div class="flex gap-5 items-start relative z-10">
+              <span class="p-num hidden sm:block" aria-hidden="true">{{ String(idx + 1).padStart(2, "0") }}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p class="eyebrow">{{ p.kind }}<span v-if="p.featured" class="muted"> · featured</span></p>
+                    <h3 class="font-display text-2xl font-semibold mt-1 tracking-tight">{{ p.title }}</h3>
+                  </div>
+                  <div class="flex gap-2">
+                    <a v-if="p.demo" :href="p.demo" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Live demo ↗</a>
+                    <a v-if="p.repo" :href="p.repo" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">GitHub ↗</a>
+                  </div>
+                </div>
+
+                <p class="muted mt-3 leading-relaxed">{{ p.summary }}</p>
+                <ul class="mt-4 flex flex-wrap gap-2">
+                  <li v-for="t in p.stack" :key="t" class="chip">{{ t }}</li>
+                </ul>
+
+                <button class="mt-5 mono text-sm font-semibold" style="color:var(--accent)"
+                        :aria-expanded="open === idx" :aria-controls="'case-' + idx" @click="open = open === idx ? null : idx">
+                  {{ open === idx ? "− hide case study" : "+ read case study" }}
+                </button>
+
+                <div :id="'case-' + idx" class="case" :class="{ open: open === idx }" :inert="open !== idx">
+                  <div>
+                    <div class="pt-5 mt-5 grid gap-5 text-sm leading-relaxed" style="border-top:1px solid var(--border)">
+                      <img v-if="p.image" :src="p.image" :alt="p.title + ' screenshot'" loading="lazy" class="rounded-xl w-full" style="border:1px solid var(--border)">
+                      <div v-else class="img-ph">screenshot / demo GIF goes here</div>
+                      <div class="grid sm:grid-cols-2 gap-5">
+                        <div v-if="p.problem"><p class="case-label">Problem</p>{{ p.problem }}</div>
+                        <div v-if="p.role"><p class="case-label">My role</p>{{ p.role }}</div>
+                        <div v-if="p.why" class="sm:col-span-2"><p class="case-label">Why this stack</p>{{ p.why }}</div>
+                      </div>
+                      <div v-if="p.challenges.length"><p class="case-label">Challenges solved</p>
+                        <ul class="space-y-2 mt-1"><li v-for="x in p.challenges" :key="x" class="flex gap-2"><span style="color:var(--accent)">▹</span><span>{{ x }}</span></li></ul></div>
+                      <div v-if="p.features.length"><p class="case-label">Key features</p>
+                        <div class="flex flex-wrap gap-2 mt-1"><span v-for="f in p.features" :key="f" class="chip">{{ f }}</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p v-if="c.links.github" class="mt-8 text-sm muted" v-reveal>
+          More code and write-ups on <a :href="c.links.github" class="underline" style="color:var(--accent)" target="_blank" rel="noopener noreferrer">GitHub</a>.
+        </p>
+      </section>
+
+      <!-- DSA LAB -->
+      <section id="lab" class="section">
+        <p class="eyebrow" v-reveal>dsa lab</p>
+        <h2 class="section-title" v-reveal="60">Algorithms you can actually run.</h2>
+        <div class="card lab" v-reveal>
+          <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="DSA tools">
+            <button v-for="t in [['sort','Sorting visualizer'],['search','Linear vs binary search'],['struct','Stack & queue']]" :key="t[0]"
+                    role="tab" :aria-selected="lab.tab === t[0]" class="tab" :class="{ on: lab.tab === t[0] }" @click="lab.tab = t[0]">{{ t[1] }}</button>
+          </div>
+
+          <!-- Sorting -->
+          <div v-show="lab.tab === 'sort'" role="tabpanel">
+            <div class="flex flex-wrap items-end gap-4 mb-4">
+              <div><label for="l-algo" class="label">Algorithm</label>
+                <select id="l-algo" class="input" style="width:auto" v-model="sort.algo" @change="resetSort"><option v-for="a in algoList" :key="a.id" :value="a.id">{{ a.name }}</option></select></div>
+              <div><label for="l-size" class="label">Size · {{ sort.size }}</label>
+                <input id="l-size" type="range" min="8" max="80" v-model.number="sort.size" @input="resetSort" class="range"></div>
+              <div><label for="l-speed" class="label">Speed</label>
+                <input id="l-speed" type="range" min="1" max="100" v-model.number="sort.speed" class="range"></div>
+              <div class="flex gap-2 ml-auto">
+                <button class="btn btn-primary btn-sm" @click="play">{{ sort.running ? "Pause" : (sort.finished ? "Run again" : "Play") }}</button>
+                <button class="btn btn-ghost btn-sm" @click="stepOnce" :disabled="sort.running">Step</button>
+                <button class="btn btn-ghost btn-sm" @click="resetSort">Shuffle</button>
+              </div>
+            </div>
+
+            <div class="bars" aria-hidden="true">
+              <div v-for="(v, i) in sort.arr" :key="i" class="bar" :class="barClass(i)" :style="{ height: v + '%' }"></div>
+            </div>
+            <p class="sr-only" role="status" aria-live="polite">{{ sort.finished ? 'Sorted.' : '' }}</p>
+
+            <div class="grid sm:grid-cols-2 gap-4 mt-5 text-sm">
+              <div>
+                <p class="case-label">{{ algoInfo.name }}</p>
+                <p class="muted leading-relaxed">{{ algoInfo.note }}</p>
+                <p class="mono text-xs mt-3"><span class="muted">comparisons</span> {{ sort.comps }} &nbsp; <span class="muted">writes/swaps</span> {{ sort.writes }}</p>
+              </div>
+              <dl class="complex mono text-xs">
+                <div><dt>best</dt><dd>{{ algoInfo.best }}</dd></div>
+                <div><dt>average</dt><dd>{{ algoInfo.avg }}</dd></div>
+                <div><dt>worst</dt><dd>{{ algoInfo.worst }}</dd></div>
+                <div><dt>space</dt><dd>{{ algoInfo.space }}</dd></div>
+              </dl>
+            </div>
+            <p class="tag mt-3"><span class="key cmp"></span> comparing <span class="key swap"></span> swap / write <span class="key sorted"></span> in place</p>
+          </div>
+
+          <!-- Search -->
+          <div v-show="lab.tab === 'search'" role="tabpanel">
+            <p class="muted text-sm mb-4 max-w-2xl">Both run on the same sorted array. Linear search checks one by one, O(n). Binary search halves the range each time, O(log n); the dimmed cells are what it ruled out.</p>
+            <div class="flex flex-wrap items-end gap-3 mb-5">
+              <div><label for="s-target" class="label">Find</label>
+                <input id="s-target" class="input" style="width:7rem" inputmode="numeric" v-model="srch.target" placeholder="e.g. 42" @keyup.enter="runSearch('binary')"></div>
+              <button class="btn btn-ghost btn-sm" @click="pickTarget" :disabled="srch.running">Pick a value</button>
+              <button class="btn btn-primary btn-sm" @click="runSearch('linear')" :disabled="srch.running">Linear search</button>
+              <button class="btn btn-primary btn-sm" @click="runSearch('binary')" :disabled="srch.running">Binary search</button>
+              <button class="btn btn-ghost btn-sm ml-auto" @click="newSearchArray">New array</button>
+            </div>
+            <ol class="cells" aria-label="Sorted array">
+              <li v-for="(v, i) in srch.arr" :key="i" class="cell" :class="cellClass(i)"><span class="idx">{{ i }}</span>{{ v }}</li>
+            </ol>
+            <p class="mono text-sm mt-4 min-h-[1.5rem]" role="status" aria-live="polite" style="color:var(--accent)">{{ srch.msg }}</p>
+          </div>
+
+          <!-- Stack & queue -->
+          <div v-show="lab.tab === 'struct'" role="tabpanel">
+            <div class="flex flex-wrap items-end gap-3 mb-5">
+              <div><label for="d-val" class="label">Value (optional)</label>
+                <input id="d-val" class="input" style="width:8rem" maxlength="4" v-model="ds.val" placeholder="random"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <p class="case-label">Stack · LIFO</p>
+                <div class="flex gap-2 mb-3"><button class="btn btn-primary btn-sm" @click="push">push</button><button class="btn btn-ghost btn-sm" @click="pop">pop</button></div>
+                <ul class="stack" aria-label="Stack, top item first">
+                  <li v-for="(v, i) in [...ds.stack].reverse()" :key="ds.stack.length - i" class="slot" :class="{ top: i === 0 }">{{ v }}<span v-if="i === 0" class="ptr">← top</span></li>
+                  <li v-if="!ds.stack.length" class="slot empty">empty</li>
+                </ul>
+              </div>
+              <div>
+                <p class="case-label">Queue · FIFO</p>
+                <div class="flex gap-2 mb-3"><button class="btn btn-primary btn-sm" @click="enqueue">enqueue</button><button class="btn btn-ghost btn-sm" @click="dequeue">dequeue</button></div>
+                <ul class="queue" aria-label="Queue, front item first">
+                  <li v-for="(v, i) in ds.queue" :key="v + '-' + i" class="slot" :class="{ top: i === 0 }">{{ v }}<span v-if="i === 0" class="ptr">front</span><span v-if="i === ds.queue.length - 1 && ds.queue.length > 1" class="ptr rear">rear</span></li>
+                  <li v-if="!ds.queue.length" class="slot empty">empty</li>
+                </ul>
+              </div>
+            </div>
+            <p class="mono text-sm mt-5" role="status" aria-live="polite" style="color:var(--accent)">{{ ds.msg }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PLAYGROUND -->
+      <section id="playground" class="section">
+        <p class="eyebrow" v-reveal>playground</p>
+        <h2 class="section-title" v-reveal="60">Write code. Run it. In your language.</h2>
+        <div class="card pgcard" v-reveal>
+          <div class="flex flex-wrap items-end gap-3 mb-4">
+            <div><label for="pg-lang" class="label">Language</label>
+              <select id="pg-lang" class="input" style="width:auto" v-model="pg.lang" @change="pgSetLang">
+                <option v-for="l in LANGS" :key="l.id" :value="l.id">{{ l.label }}</option>
+              </select></div>
+            <span class="tag pb-3">{{ pgCurrent.mode === 'remote' ? 'runs on a sandbox server' : 'runs in your browser' }}</span>
+            <div class="flex gap-2 ml-auto">
+              <button class="btn btn-ghost btn-sm" @click="pgReset">Reset</button>
+              <button class="btn btn-primary btn-sm" @click="pgRun" :disabled="pg.running">
+                {{ pg.running ? "Running…" : (pgCurrent.mode === 'browser' ? "Refresh preview" : "Run ▶") }}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-4">
+            <div class="min-w-0">
+              <div class="editor">
+                <pre class="gutter" aria-hidden="true">{{ lineNumbers }}</pre>
+                <textarea class="code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"
+                          aria-label="Code editor" v-model="pg.codes[pg.lang]"
+                          @input="pgInput" @keydown="pgKey" @scroll="pgSync"></textarea>
+              </div>
+              <div v-if="pgCurrent.mode === 'remote'" class="mt-3">
+                <label for="pg-stdin" class="label">Input (stdin), optional</label>
+                <textarea id="pg-stdin" rows="2" class="input mono text-sm" v-model="pg.stdin" maxlength="2000" placeholder="Text your program reads, e.g. a name"></textarea>
+              </div>
+              <p class="tag mt-2">Ctrl + Enter to run · Tab indents · Esc then Tab to leave the editor</p>
+            </div>
+
+            <div class="min-w-0">
+              <p class="case-label">{{ pgCurrent.mode === 'browser' ? 'Live preview' : 'Output' }}</p>
+              <iframe v-if="pgCurrent.mode === 'browser'" class="preview" :srcdoc="pg.preview" sandbox="allow-scripts" title="Live preview of your HTML"></iframe>
+              <div v-else class="output" role="status" aria-live="polite">
+                <p v-if="pg.running" class="muted">Running…</p>
+                <p v-else-if="pg.error" class="err">{{ pg.error }}</p>
+                <template v-else-if="pg.out">
+                  <pre v-if="pg.out.compile" class="err">{{ pg.out.compile }}</pre>
+                  <pre v-if="pg.out.stdout">{{ pg.out.stdout }}</pre>
+                  <pre v-if="pg.out.stderr" class="err">{{ pg.out.stderr }}</pre>
+                  <pre v-if="pg.out.message" class="err">{{ pg.out.message }}</pre>
+                  <p v-if="!pg.out.stdout && !pg.out.stderr && !pg.out.compile && !pg.out.message" class="muted">(no output)</p>
+                  <p class="foot" :class="pg.out.ok ? 'okc' : 'errc'">{{ pg.out.status }}<span v-if="pg.out.time"> · {{ pg.out.time }}s</span></p>
+                </template>
+                <p v-else class="muted">Press <b>Run ▶</b> to see output here.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="tag mt-4 max-w-3xl">
+            HTML and JavaScript run only in your browser. Other languages are sent to the public Judge0 sandbox to compile and run (limited time, memory and no network), so don't paste anything private.
+          </p>
+        </div>
+      </section>
+
+      <!-- CREDENTIALS -->
+      <section id="credentials" class="section">
+        <p class="eyebrow" v-reveal>credentials</p>
+        <h2 class="section-title" v-reveal="60">Learning in public.</h2>
+        <div class="grid md:grid-cols-2 gap-5">
+          <div class="card" v-reveal>
+            <h3 class="font-display font-semibold text-lg mb-5">Certifications &amp; training</h3>
+            <ul class="tl">
+              <li v-for="x in c.credentials.certs" :key="x.name">
+                <a v-if="x.url" :href="x.url" target="_blank" rel="noopener noreferrer" class="font-semibold hover:underline">{{ x.name }} ↗</a>
+                <span v-else class="font-semibold">{{ x.name }}</span>
+                <p class="tag mt-0.5">{{ x.issuer }} · {{ x.year }}</p>
+              </li>
+            </ul>
+          </div>
+          <div class="card" v-reveal="100">
+            <h3 class="font-display font-semibold text-lg mb-5">Experience, orgs &amp; events</h3>
+            <ul class="tl">
+              <li v-for="x in c.credentials.experience" :key="x.role">
+                <span class="font-semibold">{{ x.role }}</span> <span class="muted">· {{ x.org }}</span>
+                <p class="tag mt-0.5">{{ x.period }}</p>
+                <p class="muted text-sm mt-1">{{ x.note }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section pb-24">
+        <p class="eyebrow" v-reveal>contact</p>
+        <h2 class="section-title" v-reveal="60">Let's build something secure.</h2>
+        <div class="grid md:grid-cols-5 gap-6">
+          <div class="md:col-span-2 space-y-5" v-reveal>
+            <p class="muted leading-relaxed">{{ c.openTo }}. Send a message, or reach me directly:</p>
+            <a :href="'mailto:' + c.email" class="btn btn-ghost w-full justify-between"><span>{{ c.email }}</span><span aria-hidden="true">↗</span></a>
+            <ul class="space-y-2 text-sm">
+              <li v-if="c.links.github"><a :href="c.links.github" target="_blank" rel="noopener noreferrer" class="underline" style="color:var(--accent)">GitHub ↗</a></li>
+              <li v-if="c.links.linkedin"><a :href="c.links.linkedin" target="_blank" rel="noopener noreferrer" class="underline" style="color:var(--accent)">LinkedIn ↗</a></li>
+              <li v-if="c.links.tryhackme"><a :href="c.links.tryhackme" target="_blank" rel="noopener noreferrer" class="underline" style="color:var(--accent)">TryHackMe ↗</a></li>
+            </ul>
+            <div class="card text-xs muted leading-relaxed">
+              <p class="eyebrow mb-1">under the hood</p>
+              CSRF token · same-origin check · honeypot · minimum fill time · per-IP rate limit · server-side validation.
+            </div>
+          </div>
+
+          <form class="md:col-span-3 card space-y-4" @submit.prevent="send" @focusin="warmToken" novalidate v-reveal="100">
+            <div class="hp" aria-hidden="true">
+              <label>Leave this empty <input type="text" v-model="form.website" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="f-name" class="label">Name</label>
+                <input id="f-name" class="input" v-model.trim="form.name" maxlength="80" required autocomplete="name">
+              </div>
+              <div>
+                <label for="f-email" class="label">Email</label>
+                <input id="f-email" type="email" class="input" v-model.trim="form.email" maxlength="120" required autocomplete="email">
+              </div>
+            </div>
+            <div>
+              <label for="f-msg" class="label">Message</label>
+              <textarea id="f-msg" rows="5" class="input" v-model.trim="form.message" maxlength="2000" required></textarea>
+              <p class="tag mt-1 text-right">{{ form.message.length }}/2000</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+              <button class="btn btn-primary" :disabled="status === 'sending'">{{ status === "sending" ? "Sending…" : "Send message →" }}</button>
+              <p role="status" aria-live="polite" class="text-sm" :style="{ color: status === 'error' ? 'var(--danger)' : 'var(--accent)' }">{{ feedback }}</p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-8 text-center text-sm muted" style="border-top:1px solid var(--border)">
+      <span class="mono">© {{ year }} {{ c.name }}</span> · Vue 3 · Tailwind · PHP
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="assets/js/content.js"></script>
+  <script src="assets/js/dsa.js"></script>
+  <script src="assets/js/playground.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/bg.js"></script>
+</body>
+</html>

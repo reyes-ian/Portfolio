@@ -1,0 +1,16 @@
+# Security headers (requires mod_headers, enabled by default in XAMPP)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    # Tailwind Play CDN needs 'unsafe-inline'/'unsafe-eval'. After compiling Tailwind (see README), tighten script-src.
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+</IfModule>
+
+Options -Indexes
+
+# Never serve stored messages, rate-limit files or real config
+<FilesMatch "^(config\.php|.*\.jsonl|rate_.*\.json|\.gitignore)$">
+    Require all denied
+</FilesMatch>

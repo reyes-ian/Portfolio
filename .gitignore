@@ -1,0 +1,6 @@
+api/config.php
+storage/*
+!storage/.htaccess
+!storage/.gitkeep
+assets/resume.pdf
+.DS_Store
