@@ -1,21 +1,16 @@
-/* Practice programs from my own coursework. Source shown as I wrote it (Java adapted to a single class). */
+/* Practice programs from my own coursework (shown as cards). */
 window.PROGRAMS = [
  {
-  "hint": "Try a height like 1.75, then a weight like 65.",
-  "note": "",
   "id": "bmi",
   "title": "BMI Calculator",
   "lang": "cpp",
   "langLabel": "C++",
   "term": "1st sem",
-  "desc": "Computes BMI from height and weight, shows the formula and the weight category.",
+  "desc": "Computes BMI from height and weight, shows the formula, and flags results that are overweight or obese.",
   "concepts": "input/output, pow(), if / else if",
-  "lines": 36,
-  "code": "#include <iostream>\n#include <string>\n#include <cmath>\n\n\nusing namespace std;\n\nint main()\n{\n    double weight , height , resultExp , result;\n    double exp = 2;\n    cout<<\"===========BMI Calculator===========\"<<endl;\n    cout<<\"Enter your height(M):\";\n    cin>>height;\n    cout<<\"Enter your weight(Kg):\";\n    cin>>weight;\n    resultExp=pow(height, exp);\n    result=weight / resultExp;\n    cout<<\"FORMULA\"<<endl<<\"Weight/Height^2\"<<endl;\n    cout<<\"SOLUTION\"<<endl<<weight<<\"/\"<<height<<\"^2\"<<endl;\n    cout<<\"BMI\"<<endl<<\"RESULT:\"<<result<<endl;\n\n    if(result < 18.4){\n        cout<<\"Under weight (Kumain Ka)\";\n    }\n    else if(result >= 18.5 && result <= 24.9){\n        cout<<\"Very Nice\";\n    }\n    else if(result >= 25.0 && result <= 39.9){\n        cout<<\"Overweight (Tamang Exercise Lang)\";\n    }\n    else if(result > 40){\n        cout<<\"Obese (Papayat kana)\";\n    }\n    return 0;\n}\n"
+  "lines": 30
  },
  {
-  "hint": "Try 65Kg, then g (or lb).",
-  "note": "",
   "id": "weight",
   "title": "Weight Converter",
   "lang": "cpp",
@@ -23,12 +18,9 @@ window.PROGRAMS = [
   "term": "1st sem",
   "desc": "Converts between kilograms, grams and pounds based on the unit you type.",
   "concepts": "strings, nested if, unit conversion",
-  "lines": 61,
-  "code": "#include <iostream>\n#include <string>\n\nusing namespace std;\n\nint main()\n{\n    double weight;\n    string unit , ConUnit;\n\n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~Weight Converter~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"Enter Your Weight(ex.65Kg): \";\n    cin>>weight>>unit;\n    \n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n    if(unit == \"Kg\" || unit == \"kg\"){\n        cout<<\"Enter Unit You Want To Convert To(g=grams|lb=pounds): \";\n        cin>>ConUnit;\n        if(ConUnit == \"G\" || ConUnit == \"g\"){\n        weight=weight * 1000;\n        cout<<\"The converted Weight is: \"<<weight<<\"g\";\n        }\n        else if(ConUnit == \"lb\" || ConUnit == \"Lb\"){\n        weight=weight * 2.205;\n        cout<<\"The converted Weight is: \"<<weight<<\"lb\";\n        }\n    }\n    else if(unit == \"G\" || unit == \"g\"){\n        cout<<\"Enter Unit You Want To Convert To(kg=kilograms|lb=pounds): \";\n        cin>>ConUnit;\n        if(ConUnit == \"Kg\" || ConUnit == \"kg\"){\n        weight=weight / 1000;\n        cout<<\"The converted Weight is: \"<<weight<<\"kg\";\n        }\n        else if(ConUnit == \"lb\" || ConUnit == \"Lb\"){\n        weight=weight /  453.6;\n        cout<<\"The converted Weight is: \"<<weight<<\"lb\";\n        }\n    }\n    else if(unit == \"Lb\" || unit == \"lb\"){\n        cout<<\"Enter Unit You Want To Convert To(g=grams|kg=kilograms): \";\n        cin>>ConUnit;\n        if(ConUnit == \"G\" || ConUnit == \"g\"){\n        weight=weight * 453.6;\n        cout<<\"The converted Weight is: \"<<weight<<\"g\";\n        }\n        else if(ConUnit == \"Kg\" || ConUnit == \"kg\"){\n        weight=weight / 2.205;\n        cout<<\"The converted Weight is: \"<<weight<<\"kg\";\n        }\n    }\n    else{\n        cout<<\"Invalid Response\";\n    }\n\n\n\n\n   \n    return 0;\n}\n"
+  "lines": 61
  },
  {
-  "hint": "Try cm, then 170, then ft.",
-  "note": "",
   "id": "height",
   "title": "Height Converter",
   "lang": "cpp",
@@ -36,12 +28,9 @@ window.PROGRAMS = [
   "term": "1st sem",
   "desc": "Converts a height between cm, m, inches and feet.",
   "concepts": "strings, nested if, formulas",
-  "lines": 94,
-  "code": "#include <iostream>\n#include <string>\n\nusing namespace std;\n\nint main()\n{\n    double  Height;\n    string HeightUnit;\n\n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~Height Calculator~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n\n    cout<<\"Enter Height Unit(cm,m,inch,ft):\";\n    cin>>HeightUnit;\n    cout<<\"Enter Height:\";\n    cin>>Height;\n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n    if(HeightUnit == \"cm\" || HeightUnit == \"Cm\"){\n        cout<<\"What unit do you want to convert cm to (m,inch,ft)?:\";\n        cin>>HeightUnit;\n        if(HeightUnit == \"in\" || HeightUnit == \"inch\"){\n            Height=Height * 0.3937;\n            cout<<\"Your Height in Inches:\"<<Height;\n        }\n        else if(HeightUnit == \"m\" || HeightUnit == \"M\"){\n            Height=Height * 0.01;\n            cout<<\"Your Height in Meter:\"<<Height;\n        }\n        else if(HeightUnit == \"ft\" || HeightUnit == \"Ft\"){\n            Height=Height * 0.0328;\n            cout<<\"Your Height in Ft:\"<<Height;\n        }\n\n    }\n    else if(HeightUnit == \"m\" || HeightUnit == \"M\"){\n        cout<<\"What unit do you want to convert m to (cm,inch,ft)?:\";\n        cin>>HeightUnit;\n        if(HeightUnit == \"in\" || HeightUnit == \"inch\"){\n            Height=Height * 39.3701;\n            cout<<\"Your Height in Inches:\"<<Height;\n        }\n        else if(HeightUnit == \"cm\" || HeightUnit == \"Cm\"){\n            Height=Height * 100;\n            cout<<\"Your Height in Meter:\"<<Height;\n        }\n        else if(HeightUnit == \"ft\" || HeightUnit == \"Ft\"){\n            Height=Height * 3.281;\n            cout<<\"Your Height in Ft:\"<<Height;\n        }\n\n    }\n    else if(HeightUnit == \"in\" || HeightUnit == \"inch\"){\n        cout<<\"What unit do you want to convert inch to (cm,m,ft)?:\";\n        cin>>HeightUnit;\n        if(HeightUnit == \"cm\" || HeightUnit == \"Cm\"){\n            Height=Height * 2.54;\n            cout<<\"Your Height in Cm\"<<Height;\n        }\n        else if(HeightUnit == \"m\" || HeightUnit == \"M\"){\n            Height=Height / 39.37;\n            cout<<\"Your Height in Meter:\"<<Height;\n        }\n        else if(HeightUnit == \"ft\" || HeightUnit == \"Ft\"){\n            Height=Height / 12;\n            cout<<\"Your Height in Ft:\"<<Height;\n        }\n    }\n    else if(HeightUnit == \"Ft\" || HeightUnit == \"ft\"){\n        cout<<\"What unit do you want to convert inch to (cm,m,ft)?:\";\n        cin>>HeightUnit;\n        if(HeightUnit == \"cm\" || HeightUnit == \"Cm\"){\n            Height=Height * 30.48;\n            cout<<\"Your Height in Cm\"<<Height;\n        }\n        else if(HeightUnit == \"m\" || HeightUnit == \"M\"){\n            Height=Height * 304.8;\n            cout<<\"Your Height in Meter:\"<<Height;\n        }\n        else if(HeightUnit == \"in\" || HeightUnit == \"inch\"){\n            Height=Height * 12;\n            cout<<\"Your Height in Ft:\"<<Height;\n        }\n    }\n\n    else{\n        cout<<\"Invalid Response\"<<endl;\n    }\n\n\n\n\n\n    return 0;\n}\n"
+  "lines": 94
  },
  {
-  "hint": "Enter a name, then a height like 170 cm, for two people.",
-  "note": "",
   "id": "compare",
   "title": "Height Comparison",
   "lang": "cpp",
@@ -49,12 +38,9 @@ window.PROGRAMS = [
   "term": "1st sem",
   "desc": "Compares two people's heights and reports who is taller and by how much.",
   "concepts": "input, comparisons, switch",
-  "lines": 47,
-  "code": "#include <iostream>\n\nusing namespace std;\n\nint main()\n{\n    string FPerson , SPerson , Unit ;\n    double FHeight , SHeight , difference ;\n    cout<<\"~~~~~~~~~~~~~~~HEIGHT COMPARISON~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"Enter First Person Name(FirstName Or LastName): \";\n    cin>>FPerson;\n    cout<<\"Enter Height In Cm(178cm): \";\n    cin>>FHeight>>Unit;\n    cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"Enter Second Person Name(FirstName Or LastName): \";\n    cin>>SPerson;\n    cout<<\"Enter Height In Cm(178cm): \";\n    cin>>SHeight>>Unit;\n    cout<<\"~~~~~~~~~~~~~~~~~Person 1 Info~~~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"Name: \"<<FPerson<<endl;\n    cout<<\"Height In Cm: \"<<FHeight<<\" \"<<Unit<<endl;\n    cout<<\"~~~~~~~~~~~~~~~~~Person 2 Info~~~~~~~~~~~~~~~~~\"<<endl;\n    cout<<\"Name: \"<<SPerson<<endl;\n    cout<<\"Height In Cm: \"<<SHeight<<\" \"<<Unit<<endl;\n    cout<<\"~~~~~~~~~~~~~~~Height Difference~~~~~~~~~~~~~~~\"<<endl;\n    switch(FHeight > SHeight){\n    case true:\n        difference=FHeight-SHeight;\n        cout<<\"The Height Difference Between \"<<FPerson<<\" \"<<\"and\"<<\" \"<<SPerson<<\" \"<<\"is: \"<<difference<<Unit<<endl;\n        cout<<\"Therefore \"<<FPerson<<\" is taller than \"<<SPerson<<\" by \"<<difference<<Unit;\n        break;\n    }\n    switch(FHeight < SHeight){\n    case true:\n        difference=SHeight-FHeight;\n        cout<<\"The Height Difference Between \"<<FPerson<<\" \"<<\"and\"<<\" \"<<SPerson<<\" \"<<\"is: \"<<difference<<Unit<<endl;\n        cout<<\"Therefore \"<<SPerson<<\" is taller than \"<<FPerson<<\" by \"<<difference<<Unit;\n        break;\n    }\n    switch(FHeight == SHeight){\n    case true:\n        cout<<\"Therefore They Have The Same Height\";\n        break;\n    }\n    return 0;\n}\n"
+  "lines": 47
  },
  {
-  "hint": "Pick difficulty 1, then keep guessing between 1 and 10.",
-  "note": "",
   "id": "guess",
   "title": "Number Guessing Game",
   "lang": "cpp",
@@ -62,12 +48,9 @@ window.PROGRAMS = [
   "term": "1st sem",
   "desc": "Pick a difficulty, guess the random number, and get a score and average attempts.",
   "concepts": "rand(), switch, do-while, scoring",
-  "lines": 72,
-  "code": "#include <iostream>\n#include <ctime>\n#include <cstdlib>\nusing namespace std;\n\nint main()\n{\n   srand(time(0));\n   int difficulty , number , guess , attempts , score = 0 , totalattempt = 0;\n   char playagain;\n   \n   do{\n    cout<<\"NUMBER GUESSING GAME\"<<'\\n';\n    cout<<\"--------------------\"<<'\\n';\n    cout<<\"CHOOSE DIFFICULTY\"<<'\\n';\n    cout<<\"1 for easy (1-10)\\n\";\n    cout<<\"2 for easy (1-50)\\n\";\n    cout<<\"3 for easy (1-100)\\n\";\n    cin>>difficulty;\n\n    switch(difficulty){\n        case 1:\n        number = rand() % 10 + 1;\n        break;\n        case 2:\n        number = rand() % 50 + 1;\n        break;\n        case 3:\n        number = rand() % 100 + 1;\n        break;\n        default:\n        cout<<\"Invalid Difficulty\";\n    }\n\n    attempts = 0;\n    cout<<\"Guess the number between 1 and \";\n    switch(difficulty){\n        case 1:\n        cout<<\"10\"<<'\\n';\n        break;\n        case 2:\n        cout<<\"50\"<<'\\n';\n        break;\n        case 3:\n        cout<<\"100\"<<'\\n';\n        break;\n    }\n    do{\n        cin>>guess;\n        attempts++;\n\n        if(guess < number){\n            cout<<\"Too Low! Try Again\"<<'\\n';\n        }\n        else if(guess > number){\n            cout<<\"Too High! Try Again\"<<'\\n';\n        }\n    }while(guess != number);\n\n    totalattempt += attempts;\n    score += 100 - (attempts * 5);\n\n    cout<<\"Cogratulation! You have fund the number in \"<<attempts<<\" attempts\"<<'\\n';\n    cout<<\"Your score: \"<<score<<'\\n';\n    cout<<\"Average attempts: \"<<(double)totalattempt / (difficulty + 1)<<'\\n';\n\n    cout<<\"Do you want to paly again[y/n]\";\n    cin>>playagain;\n   }while(playagain == 'y'|| playagain == 'Y');\n    \n    return 0;    \n}\n"
+  "lines": 72
  },
  {
-  "hint": "Press 2 to deposit, 3 to withdraw, 1 to check, 4 to exit.",
-  "note": "",
   "id": "bank",
   "title": "Banking System",
   "lang": "cpp",
@@ -75,12 +58,9 @@ window.PROGRAMS = [
   "term": "1st sem",
   "desc": "Menu-driven account: show balance, deposit and withdraw.",
   "concepts": "functions, switch, do-while",
-  "lines": 67,
-  "code": "#include <iostream>\n\nusing namespace std;\n\nvoid showbalance(double balance);\ndouble deposit(double balance);\ndouble withdraw(double balance);\n\nint main(){\n    double balance = 1000;\n    int choice = 0;\n    do{\n        cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\n\";\n        cout<<\"~~~~~~~~BANKING SYSTEM~~~~~~~~\\n\";\n        cout<<\"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\n\";\n        cout<<\"What would you like to do?\\n\";\n        cout<<\"1. Show Balance\\n\";\n        cout<<\"2. Deposit Money\\n\";\n        cout<<\"3. Withdraw Money\\n\";\n        cout<<\"4. Exit\\n\";\n        cin>>choice;\n\n        switch(choice){\n        case 1:showbalance(balance);\n            break;\n        case 2:balance += deposit(balance);\n            showbalance(balance);\n            break;\n        case 3:balance -= withdraw(balance);\n            showbalance(balance);\n            break;\n        case 4:cout<<\"Thank You!!!\";\n            break;\n        default:cout<<\"Invalid Response\";\n            break;\n        }\n    }while(choice !=4);\n\n    return 0;\n}\nvoid showbalance(double balance){\n    cout<<\"Your Current Balance is: $\"<<balance<<\"\\n\";\n}\ndouble deposit(double balance){\n    double amount = 0;\n    cout<<\"Enter Amount to Deposit:\";\n    cin>>amount;\n\n    if(amount > 0){\n        return amount;\n    }\n    else{\n        cout<<\"Invalid Amount\";\n    }\n}\ndouble withdraw(double balance){\n    double amount = 0;\n    cout<<\"Enter Amount To Withdraw:\";\n    cin>>amount;\n\n    if(amount < balance){\n        return amount;\n    }\n    else{\n        cout<<\"Insufficient Amount\\n\";\n    }\n}\n"
+  "lines": 67
  },
  {
-  "hint": "Press 2 to rent car 1, then 4 to see customer information.",
-  "note": "",
   "id": "car",
   "title": "Car Renting System",
   "lang": "cpp",
@@ -88,12 +68,9 @@ window.PROGRAMS = [
   "term": "1st sem finals",
   "desc": "Browse cars, rent and return them, and track customers and amounts due.",
   "concepts": "arrays, global state, menu loop",
-  "lines": 93,
-  "code": "#include <iostream>\nusing namespace std;\n\n// Global Variables\nconst int Max_Car = 5;\nconst int Max_Customer = 10;\n\nint CustomerCount = 0;\ndouble totalAmount[Max_Car];\nstring carBrand[Max_Car] = {\"Chevrolet\", \"Bugatti\", \"Nissan\", \"Pagani\", \"Ford\"};\nstring carModel[Max_Car] = {\"Camaro\", \"Veyron\", \"GT-R5\", \"Zonda\", \"Raptor\"};\ndouble carPrice[Max_Car] = {500, 656, 450, 600, 200}; // Rate per hour\nbool carRented[Max_Car] = {false};\nstring name[Max_Customer];\ndouble contact[Max_Customer]; // Changed to double for contact number\ndouble rentHours[Max_Car]; // Added to store rent hours\n\nstring head[4] = {\"Car No.\", \"Brand\", \"Model\", \"Rate Per Hour\"};\nstring head2[4] = {\"Car No.\", \"Customer Name\", \"Contact Number\", \"Amount To be Paid\"};\n\nint main() {\n    int choice;\n    int carNum;\n    int select;\n\n    do {\n        cout << \"~~~~~~~~~~Car Renting~~~~~~~~~~\\n\";\n        cout << \"1. Show Car list\\n\";\n        cout << \"2. Rent Car\\n\";\n        cout << \"3. Return Car\\n\";\n        cout << \"4. Customer Information\\n\";\n        cout << \"5. Exit\\n\";\n        cin >> choice;\n\n        switch (choice) {\n            case 1:\n                cout << \"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\n\";\n                cout << \"Car No.      Brand Model      Rate Per Hour \\n\";\n                for (int i = 0; i < Max_Car; i++) {\n                    if (!carRented[i]) {\n                        cout << i + 1 << \"      \" << carBrand[i] << \"      \" << carModel[i] << \"  $\" << carPrice[i] << \".00\\n\";\n                    }\n                }\n                break;\n\n            case 2:\n                cout << \"Select Car: \";\n                cin >> carNum;\n                if (carNum > 0 && carNum <= Max_Car && !carRented[carNum - 1]) {\n                    cout << \"Enter name: \";\n                    cin >> name[CustomerCount];\n                    cout << \"Enter Contact Number: \";\n                    cin >> contact[CustomerCount];\n                    cout << \"Enter Rent Hours: \";\n                    cin >> rentHours[carNum - 1];\n\n                    totalAmount[carNum - 1] = rentHours[carNum - 1] * carPrice[carNum - 1];\n                    carRented[carNum - 1] = true;\n                    CustomerCount++;\n                    cout << \"Car Rented Successfully\\n\";\n                    cout << \"Amount to be Paid:\"<<totalAmount[carNum - 1]<<\".00\"<<'\\n';\n                } else {\n                    cout << \"Invalid Car Number or Car Already Rented\\n\";\n                }\n                break;\n\n            case 3:\n                cout << \"Enter Car Number: \";\n                cin >> select;\n                if (select > 0 && select <= Max_Car && carRented[select - 1]) {\n                    carRented[select - 1] = false;\n                    cout << \"Car Returned Successfully\\n\";\n                } else {\n                    cout << \"Invalid Car Number or Car Not Rented\\n\";\n                }\n                break;\n\n            case 4:\n                cout << \"~~~~~Customer Information~~~~~\\n\";\n                cout << \"Car No.     Customer Name      Contact Number     Amount to Pay \\n\";\n                for (int i = 0; i < CustomerCount; i++) {\n                    cout << i + 1 << \" \" << name[i] << \" \" << contact[i] << \" $\" << totalAmount[i] << \".00\\n\";\n                }\n                break;\n\n            case 5:\n                cout << \"Thank you\\n\";\n                break;\n        }\n    } while (choice != 5);\n\n    return 0;\n}\n"
+  "lines": 93
  },
  {
-  "hint": "Press 2 to add a task, 1 to view, 3 to complete one.",
-  "note": "",
   "id": "todo",
   "title": "To-Do List",
   "lang": "cpp",
@@ -101,12 +78,9 @@ window.PROGRAMS = [
   "term": "1st sem final project",
   "desc": "Add, view, complete and remove tasks from a simple console list.",
   "concepts": "arrays, shifting elements, getline",
-  "lines": 102,
-  "code": "#include <iostream>\n#include <string>\n\nconst int MAX_TASKS = 10;\n\nint main() {\n    int taskCount = 0;\n    bool itemToDo[MAX_TASKS] = {false};\n    bool done[MAX_TASKS] = {false};\n    std::string note[MAX_TASKS];\n    std::string toDoList[MAX_TASKS];\n    std::string completeStatus[MAX_TASKS] = {\"Completed\"};\n\n    int choice;\n    int select;\n\n    do {\n        std::cout << \"~~~~~~~~~~To-DO List~~~~~~~~~~\\n\";\n        std::cout << \"1. Show Tasks\\n\";\n        std::cout << \"2. Add Task\\n\";\n        std::cout << \"3. Mark Task as Complete\\n\";\n        std::cout << \"4. Remove Task\\n\";\n        std::cout << \"5. Exit\\n\";\n        std::cin >> choice;\n        std::cin.ignore();\n\n        switch (choice) {\n            case 1:\n                std::cout << \"~~~~~~~~~~Task To-DO~~~~~~~~~~\\n\";\n                if (taskCount == 0) {\n                    std::cout << \"You Have No Pending Tasks\\n\";\n                } else {\n                    std::cout << \"Task No.      Description      Note      Remarks\\n\";\n                    for (int i = 0; i < taskCount; i++) {\n                        if (!done[i]) {\n                            std::cout << (i + 1) << \".            \" << toDoList[i] << \"             \" << note[i] << \"      Pending\\n\";\n                        } else {\n                            std::cout << (i + 1) << \".            \" << toDoList[i] << \"             \" << note[i] << \"      Completed\\n\";\n                        }\n                    }\n                }\n                break;\n\n            case 2:\n                if (taskCount < MAX_TASKS) {\n                    std::cout << \"~~~~~~~~~~Enter Task~~~~~~~~~~\\n\";\n                    std::cout << \"Enter Task Description: \";\n                    std::getline(std::cin, toDoList[taskCount]);\n                    std::cout << \"Enter Task Note: \";\n                    std::getline(std::cin, note[taskCount]);\n                    itemToDo[taskCount] = true;\n                    taskCount++;\n                } else {\n                    std::cout << \"Task limit exceeded!\\n\";\n                }\n                break;\n\n            case 3:\n                std::cout << \"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\n\";\n                if (taskCount == 0) {\n                    std::cout << \"You Have No Pending Tasks\\n\";\n                } else {\n                    std::cout << \"Enter Task Number to Mark as Complete: \";\n                    std::cin >> select;\n                    std::cin.ignore();\n                    if (select > 0 && select <= taskCount) {\n                        done[select - 1] = true;\n                        std::cout << \"Task marked as complete!\\n\";\n                    } else {\n                        std::cout << \"Invalid task number!\\n\";\n                    }\n                }\n                break;\n            case 4:\n                std::cout << \"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\n\";\n                std::cout << \"Select Task to Delete: \";\n                std::cin >> select;\n                std::cin.ignore();\n                if (select > 0 && select <= taskCount && itemToDo[select - 1]) {\n                    for (int i = select - 1; i < taskCount - 1; i++) {\n                        toDoList[i] = toDoList[i + 1];\n                        note[i] = note[i + 1];\n                        done[i] = done[i + 1];\n                    }\n                    taskCount--;\n                    std::cout << \"Task removed!\\n\";\n                } else {\n                    std::cout << \"Invalid task number!\\n\";\n                }\n                break;\n\n            case 5:\n                std::cout << \"Thank You\\n\";\n                break;\n\n            default:\n                std::cout << \"Invalid choice. Please try again.\\n\";\n        }\n    } while (choice != 5);\n\n    return 0;\n}\n"
+  "lines": 102
  },
  {
-  "hint": "Pick 1-4, enter two numbers, and 5 to exit.",
-  "note": "",
   "id": "calc",
   "title": "Calculator sa Java",
   "lang": "java",
@@ -114,7 +88,6 @@ window.PROGRAMS = [
   "term": "NetBeans",
   "desc": "Menu calculator: add, subtract, divide (guards divide-by-zero) and multiply.",
   "concepts": "Scanner, switch, while loop",
-  "lines": 84,
-  "code": "// Adapted for the online runner: package line removed and class renamed to Main\n// (original: calculator.sa.java.CalculatorSaJava, written in NetBeans).\nimport java.util.Scanner;\n\npublic class Main {\n\n    public static void main(String[] args) {\n\n        Scanner scn = new Scanner(System.in);\n        double num1, num2, total;\n\n        while (true) {\n\n            System.out.println(\"\\n===== Calculator sa Java =====\");\n            System.out.println(\"1.) Add\");\n            System.out.println(\"2.) Subtract\");\n            System.out.println(\"3.) Divide\");\n            System.out.println(\"4.) Multiply\");\n            System.out.println(\"5.) Exit\");\n            System.out.print(\"Choose an option: \");\n\n            int choice = scn.nextInt();\n\n            switch (choice) {\n\n                case 1:\n                    System.out.print(\"Enter First Number: \");\n                    num1 = scn.nextDouble();\n\n                    System.out.print(\"Enter Second Number: \");\n                    num2 = scn.nextDouble();\n\n                    total = num1 + num2;\n                    System.out.println(\"Answer = \" + total);\n                    break;\n\n                case 2:\n                    System.out.print(\"Enter First Number: \");\n                    num1 = scn.nextDouble();\n\n                    System.out.print(\"Enter Second Number: \");\n                    num2 = scn.nextDouble();\n\n                    total = num1 - num2;\n                    System.out.println(\"Answer = \" + total);\n                    break;\n\n                case 3:\n                    System.out.print(\"Enter First Number: \");\n                    num1 = scn.nextDouble();\n\n                    System.out.print(\"Enter Second Number: \");\n                    num2 = scn.nextDouble();\n\n                    if (num2 == 0) {\n                        System.out.println(\"Cannot divide by zero!\");\n                    } else {\n                        total = num1 / num2;\n                        System.out.println(\"Answer = \" + total);\n                    }\n                    break;\n\n                case 4:\n                    System.out.print(\"Enter First Number: \");\n                    num1 = scn.nextDouble();\n\n                    System.out.print(\"Enter Second Number: \");\n                    num2 = scn.nextDouble();\n\n                    total = num1 * num2;\n                    System.out.println(\"Answer = \" + total);\n                    break;\n\n                case 5:\n                    System.out.println(\"Calculator Closed.\");\n                    scn.close();\n                    return;\n\n                default:\n                    System.out.println(\"Invalid Choice!\");\n            }\n        }\n    }\n}\n"
+  "lines": 84
  }
 ];

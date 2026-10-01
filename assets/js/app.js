@@ -6,7 +6,7 @@ const app = createApp({
   setup() {
     const c = window.PORTFOLIO;
     const dsa = window.createDsa(Vue);
-    const show = window.createShowcase(Vue);
+    const programs = window.PROGRAMS || [];
     const dark = ref(document.documentElement.classList.contains("dark"));
     const open = ref(0);
     const active = ref("top");
@@ -134,7 +134,7 @@ const app = createApp({
       }
     }
 
-    return { ...dsa, ...show, testimonials, c, dark, open, active, nav, initials, firstName, form, status, feedback, bar, typed, typingCmd, toggleTheme, glow, send, warmToken, year: new Date().getFullYear() };
+    return { ...dsa, programs, testimonials, c, dark, open, active, nav, initials, firstName, form, status, feedback, bar, typed, typingCmd, toggleTheme, glow, send, warmToken, year: new Date().getFullYear() };
   },
 });
 

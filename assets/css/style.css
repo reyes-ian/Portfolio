@@ -253,25 +253,6 @@ main { counter-reset: sec; }
 /* ---------- My programs gallery ---------- */
 .prog { display: flex; flex-direction: column; padding: 1.1rem; border: 1px solid var(--border); border-radius: .85rem; background: var(--bg-2); transition: border-color .2s, transform .2s, box-shadow .2s; }
 .prog:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-3px); box-shadow: 0 16px 32px -18px var(--glow); }
-.prog .btn { margin-top: auto; }
-.prog > div:last-child { margin-top: auto; padding-top: 1rem; }
-
-/* ---------- Program terminal + source ---------- */
-.termbox { border: 1px solid var(--border); border-radius: .75rem; overflow: hidden; background: var(--term-bg); }
-.termscreen { height: 21rem; overflow: auto; padding: .9rem 1rem; white-space: pre-wrap; word-break: break-word; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .8rem; line-height: 1.55; color: #d3deef; }
-.termscreen .s-in { color: #34d399; }
-.termscreen .s-sys { color: #8aa0bd; font-style: italic; }
-.terminput { display: flex; align-items: center; gap: .6rem; padding: .55rem .7rem; border-top: 1px solid #16223a; background: #0a1120; }
-.terminput .p { color: #34d399; font-family: "JetBrains Mono", monospace; }
-.terminput input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #e6edf7; font-family: "JetBrains Mono", monospace; font-size: .85rem; }
-.terminput input::placeholder { color: #4b5d7a; }
-.termbox:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-
-.srcview { display: flex; height: 25.5rem; border: 1px solid var(--border); border-radius: .75rem; overflow: hidden; background: var(--term-bg); }
-.gutter, .srccode { margin: 0; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .75rem; line-height: 1.55; padding: .8rem 0; }
-.gutter { flex: 0 0 2.6rem; text-align: right; padding-right: .6rem; color: #4b5d7a; border-right: 1px solid #16223a; background: #0a1120; overflow: hidden; user-select: none; }
-.srccode { flex: 1; min-width: 0; padding: .8rem 1rem; color: #c6d4ea; overflow: auto; white-space: pre; tab-size: 4; }
-@media (max-width: 520px) { .termscreen { height: 17rem; } .srcview { height: 20rem; } }
 
 /* ---------- Team line on project cards ---------- */
 .team { margin-top: .6rem; font-size: .85rem; color: var(--muted); }

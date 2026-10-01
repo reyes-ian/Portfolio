@@ -223,50 +223,18 @@
 
           <!-- My programs -->
           <div v-show="lab.tab === 'programs'" role="tabpanel">
-            <template v-if="!sc.id">
-              <p class="muted text-sm mb-5 max-w-2xl">Practice programs I wrote in C++ (Code::Blocks) and Java (NetBeans). Each one runs here as a browser version of the program, so you can type your own input, with the original source beside it.</p>
-              <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <article v-for="p in programs" :key="p.id" class="prog">
-                  <div class="flex items-center justify-between gap-2">
-                    <span class="chip">{{ p.langLabel }}</span>
-                    <span class="tag">{{ p.term }} · {{ p.lines }} lines</span>
-                  </div>
-                  <h3 class="font-display font-semibold text-lg mt-3 leading-tight">{{ p.title }}</h3>
-                  <p class="muted text-sm mt-1.5 leading-relaxed">{{ p.desc }}</p>
-                  <p class="tag mt-2">{{ p.concepts }}</p>
-                  <div><button class="btn btn-primary btn-sm" @click="scStart(p.id)">Run it ▶</button></div>
-                </article>
-              </div>
-            </template>
-
-            <template v-else>
-              <div class="flex flex-wrap items-center gap-3 mb-3">
-                <button class="btn btn-ghost btn-sm" @click="scBack">← All programs</button>
-                <h3 class="font-display font-semibold text-lg">{{ scCurrent.title }}</h3>
-                <span class="chip">{{ scCurrent.langLabel }}</span>
-                <button class="btn btn-primary btn-sm ml-auto" @click="scStart(sc.id)">Restart ↻</button>
-              </div>
-              <p class="tag mb-3">{{ scCurrent.hint }}</p>
-              <div class="grid lg:grid-cols-2 gap-4">
-                <div class="min-w-0">
-                  <div class="termbox" @click="scFocus">
-                    <div id="termscreen" class="termscreen" role="log" aria-label="Program output"><span v-for="(g, i) in sc.segs" :key="i" :class="'s-' + g.k">{{ g.s }}</span><span v-if="sc.waiting" class="caret"></span></div>
-                    <form class="terminput" @submit.prevent="scSubmit">
-                      <label for="tin" class="sr-only">Type your input and press Enter</label>
-                      <span class="p" aria-hidden="true">❯</span>
-                      <input id="tin" v-model="sc.input" :disabled="!sc.waiting" autocomplete="off" spellcheck="false" maxlength="120"
-                             :placeholder="sc.waiting ? 'type here, then press Enter' : (sc.done ? 'program finished' : '')">
-                      <button class="btn btn-primary btn-sm" :disabled="!sc.waiting">Enter ↵</button>
-                    </form>
-                  </div>
-                  <p class="tag mt-2">Browser version of the {{ scCurrent.langLabel }} program. The source on the right is the original.</p>
+            <p class="muted text-sm mb-5 max-w-2xl">Practice programs I wrote in C++ (Code::Blocks) and Java (NetBeans).</p>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <article v-for="p in programs" :key="p.id" class="prog">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="chip">{{ p.langLabel }}</span>
+                  <span class="tag">{{ p.term }} · {{ p.lines }} lines</span>
                 </div>
-                <div class="min-w-0">
-                  <div class="srcview"><pre class="gutter" aria-hidden="true">{{ scLineNums }}</pre><pre class="srccode" tabindex="0" aria-label="Program source code">{{ scCurrent.code }}</pre></div>
-                  <p class="tag mt-2">Original source · {{ scCurrent.langLabel }}<span v-if="scCurrent.note"> · {{ scCurrent.note }}</span></p>
-                </div>
-              </div>
-            </template>
+                <h3 class="font-display font-semibold text-lg mt-3 leading-tight">{{ p.title }}</h3>
+                <p class="muted text-sm mt-1.5 leading-relaxed">{{ p.desc }}</p>
+                <p class="tag mt-2">{{ p.concepts }}</p>
+              </article>
+            </div>
           </div>
 
           <!-- Sorting -->
@@ -454,8 +422,6 @@
   <script src="assets/js/content.js"></script>
   <script src="assets/js/dsa.js"></script>
   <script src="assets/js/programs.js"></script>
-  <script src="assets/js/ports.js"></script>
-  <script src="assets/js/showcase.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/bg.js"></script>
 </body>
