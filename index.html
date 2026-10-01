@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio | Full-stack developer with a security mindset</title>
-  <meta name="description" content="Full-stack web developer (Laravel + Vue) with a networking and cybersecurity background. Open to internships and OJT.">
+  <title>Ian Reyes | Full-stack developer with a security mindset</title>
+  <meta name="description" content="Full-stack developer (PHP, JavaScript, Java) with a networking and cybersecurity focus. IT student at NCST, open to cybersecurity or software engineering internships and OJT.">
   <meta name="theme-color" content="#070b14" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f3f7fb" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070b14'/%3E%3Cpath d='M9 22l5-6-5-6M16 23h8' stroke='%2334d399' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <script>
     // Apply saved/system theme before paint (dark is the default look).
     (function () {
@@ -55,7 +57,10 @@
       <!-- HERO -->
       <section id="top" class="hero mx-auto max-w-[68rem] px-5 pt-16 pb-12 md:pt-24 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
         <div class="min-w-0">
-          <p class="status-pill" v-reveal><span class="pulse"></span>{{ c.openTo }} · {{ c.location }}</p>
+          <div class="flex items-center gap-4 flex-wrap" v-reveal>
+            <div class="avatar"><img src="assets/img/ian.jpg" alt="Portrait of Ian Reyes" width="480" height="480" fetchpriority="high"></div>
+            <p class="status-pill"><span class="pulse"></span>{{ c.openTo }} · {{ c.location }}</p>
+          </div>
           <h1 class="hero-title mt-6" v-reveal="80">
             Hi, I'm <span class="grad">{{ firstName }}</span>.
           </h1>
@@ -87,9 +92,15 @@
       <section id="about" class="section">
         <p class="eyebrow" v-reveal>about</p>
         <h2 class="section-title" v-reveal="60">Developer first, with a defender's eye.</h2>
-        <div class="grid md:grid-cols-5 gap-6">
+        <div class="grid md:grid-cols-5 gap-6 items-start">
           <div class="md:col-span-3 space-y-4 leading-relaxed" v-reveal="100">
             <p v-for="(p, i) in c.about" :key="i" :class="i ? 'muted' : 'text-lg'">{{ p }}</p>
+            <div class="pt-2 space-y-3">
+              <div v-if="c.learning && c.learning.length"><p class="case-label">Currently learning</p>
+                <ul class="flex flex-wrap gap-2"><li v-for="x in c.learning" :key="x" class="chip">{{ x }}</li></ul></div>
+              <div v-if="c.lookingFor && c.lookingFor.length"><p class="case-label">Looking for</p>
+                <ul class="flex flex-wrap gap-2"><li v-for="x in c.lookingFor" :key="x" class="chip">{{ x }}</li></ul></div>
+            </div>
           </div>
           <div class="md:col-span-2 card" v-reveal="180">
             <p class="eyebrow mb-3">what I bring</p>
@@ -123,7 +134,7 @@
             <div class="group-head">
               <span class="group-ico">{{ g.icon || String(i + 1).padStart(2, "0") }}</span>
               <h3 class="font-display font-semibold" :class="g.featured ? 'text-2xl' : 'text-lg'">{{ g.group }}</h3>
-              <span v-if="g.featured" class="badge ml-auto">my differentiator</span>
+              <span v-if="g.featured" class="badge ml-auto">my focus</span>
             </div>
             <p v-if="g.blurb" class="muted text-sm leading-relaxed mb-4 max-w-2xl">{{ g.blurb }}</p>
             <ul class="flex flex-wrap gap-2">
@@ -154,9 +165,17 @@
                 </div>
 
                 <p class="muted mt-3 leading-relaxed">{{ p.summary }}</p>
+                <p v-if="p.team && p.team.length" class="team"><span class="team-label">Team project</span> with {{ p.team.join(", ") }}</p>
                 <ul class="mt-4 flex flex-wrap gap-2">
                   <li v-for="t in p.stack" :key="t" class="chip">{{ t }}</li>
                 </ul>
+
+                <div v-if="p.gallery && p.gallery.length" class="gallery mt-5" role="list" aria-label="Screenshots">
+                  <figure v-for="g in p.gallery" :key="g.src" class="shot" :class="g.kind" role="listitem">
+                    <img :src="g.src" :alt="g.alt" loading="lazy">
+                    <figcaption>{{ g.caption }}</figcaption>
+                  </figure>
+                </div>
 
                 <button class="mt-5 mono text-sm font-semibold" style="color:var(--accent)"
                         :aria-expanded="open === idx" :aria-controls="'case-' + idx" @click="open = open === idx ? null : idx">
@@ -167,7 +186,7 @@
                   <div>
                     <div class="pt-5 mt-5 grid gap-5 text-sm leading-relaxed" style="border-top:1px solid var(--border)">
                       <img v-if="p.image" :src="p.image" :alt="p.title + ' screenshot'" loading="lazy" class="rounded-xl w-full" style="border:1px solid var(--border)">
-                      <div v-else class="img-ph">screenshot / demo GIF goes here</div>
+                      <div v-else-if="!(p.gallery && p.gallery.length)" class="img-ph">screenshot / demo GIF goes here</div>
                       <div class="grid sm:grid-cols-2 gap-5">
                         <div v-if="p.problem"><p class="case-label">Problem</p>{{ p.problem }}</div>
                         <div v-if="p.role"><p class="case-label">My role</p>{{ p.role }}</div>
@@ -175,6 +194,9 @@
                       </div>
                       <div v-if="p.challenges.length"><p class="case-label">Challenges solved</p>
                         <ul class="space-y-2 mt-1"><li v-for="x in p.challenges" :key="x" class="flex gap-2"><span style="color:var(--accent)">▹</span><span>{{ x }}</span></li></ul></div>
+                      <div v-if="p.backend && p.backend.length"><p class="case-label">Backend highlights</p>
+                        <ul class="space-y-2 mt-1"><li v-for="x in p.backend" :key="x" class="flex gap-2"><span style="color:var(--accent)">▹</span><span>{{ x }}</span></li></ul></div>
+                      <div v-if="p.status"><p class="case-label">Status</p>{{ p.status }}</div>
                       <div v-if="p.features.length"><p class="case-label">Key features</p>
                         <div class="flex flex-wrap gap-2 mt-1"><span v-for="f in p.features" :key="f" class="chip">{{ f }}</span></div></div>
                     </div>
@@ -189,14 +211,62 @@
         </p>
       </section>
 
-      <!-- DSA LAB -->
-      <section id="lab" class="section">
-        <p class="eyebrow" v-reveal>dsa lab</p>
-        <h2 class="section-title" v-reveal="60">Algorithms you can actually run.</h2>
-        <div class="card lab" v-reveal>
-          <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="DSA tools">
-            <button v-for="t in [['sort','Sorting visualizer'],['search','Linear vs binary search'],['struct','Stack & queue']]" :key="t[0]"
+      <!-- PLAYGROUND -->
+      <section id="playground" class="section">
+        <p class="eyebrow" v-reveal>playground</p>
+        <h2 class="section-title" v-reveal="60">Try my code and the algorithms behind it.</h2>
+        <div class="card pgcard" v-reveal>
+          <div class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Playground tools">
+            <button v-for="t in [['programs','My programs'],['sort','Sorting visualizer'],['search','Linear vs binary search'],['struct','Stack & queue']]" :key="t[0]"
                     role="tab" :aria-selected="lab.tab === t[0]" class="tab" :class="{ on: lab.tab === t[0] }" @click="lab.tab = t[0]">{{ t[1] }}</button>
+          </div>
+
+          <!-- My programs -->
+          <div v-show="lab.tab === 'programs'" role="tabpanel">
+            <template v-if="!sc.id">
+              <p class="muted text-sm mb-5 max-w-2xl">Practice programs I wrote in C++ (Code::Blocks) and Java (NetBeans). Each one runs here as a browser version of the program, so you can type your own input, with the original source beside it.</p>
+              <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <article v-for="p in programs" :key="p.id" class="prog">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="chip">{{ p.langLabel }}</span>
+                    <span class="tag">{{ p.term }} · {{ p.lines }} lines</span>
+                  </div>
+                  <h3 class="font-display font-semibold text-lg mt-3 leading-tight">{{ p.title }}</h3>
+                  <p class="muted text-sm mt-1.5 leading-relaxed">{{ p.desc }}</p>
+                  <p class="tag mt-2">{{ p.concepts }}</p>
+                  <div><button class="btn btn-primary btn-sm" @click="scStart(p.id)">Run it ▶</button></div>
+                </article>
+              </div>
+            </template>
+
+            <template v-else>
+              <div class="flex flex-wrap items-center gap-3 mb-3">
+                <button class="btn btn-ghost btn-sm" @click="scBack">← All programs</button>
+                <h3 class="font-display font-semibold text-lg">{{ scCurrent.title }}</h3>
+                <span class="chip">{{ scCurrent.langLabel }}</span>
+                <button class="btn btn-primary btn-sm ml-auto" @click="scStart(sc.id)">Restart ↻</button>
+              </div>
+              <p class="tag mb-3">{{ scCurrent.hint }}</p>
+              <div class="grid lg:grid-cols-2 gap-4">
+                <div class="min-w-0">
+                  <div class="termbox" @click="scFocus">
+                    <div id="termscreen" class="termscreen" role="log" aria-label="Program output"><span v-for="(g, i) in sc.segs" :key="i" :class="'s-' + g.k">{{ g.s }}</span><span v-if="sc.waiting" class="caret"></span></div>
+                    <form class="terminput" @submit.prevent="scSubmit">
+                      <label for="tin" class="sr-only">Type your input and press Enter</label>
+                      <span class="p" aria-hidden="true">❯</span>
+                      <input id="tin" v-model="sc.input" :disabled="!sc.waiting" autocomplete="off" spellcheck="false" maxlength="120"
+                             :placeholder="sc.waiting ? 'type here, then press Enter' : (sc.done ? 'program finished' : '')">
+                      <button class="btn btn-primary btn-sm" :disabled="!sc.waiting">Enter ↵</button>
+                    </form>
+                  </div>
+                  <p class="tag mt-2">Browser version of the {{ scCurrent.langLabel }} program. The source on the right is the original.</p>
+                </div>
+                <div class="min-w-0">
+                  <div class="srcview"><pre class="gutter" aria-hidden="true">{{ scLineNums }}</pre><pre class="srccode" tabindex="0" aria-label="Program source code">{{ scCurrent.code }}</pre></div>
+                  <p class="tag mt-2">Original source · {{ scCurrent.langLabel }}<span v-if="scCurrent.note"> · {{ scCurrent.note }}</span></p>
+                </div>
+              </div>
+            </template>
           </div>
 
           <!-- Sorting -->
@@ -282,81 +352,28 @@
         </div>
       </section>
 
-      <!-- PLAYGROUND -->
-      <section id="playground" class="section">
-        <p class="eyebrow" v-reveal>playground</p>
-        <h2 class="section-title" v-reveal="60">Write code. Run it. In your language.</h2>
-        <div class="card pgcard" v-reveal>
-          <div class="flex flex-wrap items-end gap-3 mb-4">
-            <div><label for="pg-lang" class="label">Language</label>
-              <select id="pg-lang" class="input" style="width:auto" v-model="pg.lang" @change="pgSetLang">
-                <option v-for="l in LANGS" :key="l.id" :value="l.id">{{ l.label }}</option>
-              </select></div>
-            <span class="tag pb-3">{{ pgCurrent.mode === 'remote' ? 'runs on a sandbox server' : 'runs in your browser' }}</span>
-            <div class="flex gap-2 ml-auto">
-              <button class="btn btn-ghost btn-sm" @click="pgReset">Reset</button>
-              <button class="btn btn-primary btn-sm" @click="pgRun" :disabled="pg.running">
-                {{ pg.running ? "Running…" : (pgCurrent.mode === 'browser' ? "Refresh preview" : "Run ▶") }}
-              </button>
-            </div>
-          </div>
-
-          <div class="grid lg:grid-cols-2 gap-4">
-            <div class="min-w-0">
-              <div class="editor">
-                <pre class="gutter" aria-hidden="true">{{ lineNumbers }}</pre>
-                <textarea class="code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"
-                          aria-label="Code editor" v-model="pg.codes[pg.lang]"
-                          @input="pgInput" @keydown="pgKey" @scroll="pgSync"></textarea>
-              </div>
-              <div v-if="pgCurrent.mode === 'remote'" class="mt-3">
-                <label for="pg-stdin" class="label">Input (stdin), optional</label>
-                <textarea id="pg-stdin" rows="2" class="input mono text-sm" v-model="pg.stdin" maxlength="2000" placeholder="Text your program reads, e.g. a name"></textarea>
-              </div>
-              <p class="tag mt-2">Ctrl + Enter to run · Tab indents · Esc then Tab to leave the editor</p>
-            </div>
-
-            <div class="min-w-0">
-              <p class="case-label">{{ pgCurrent.mode === 'browser' ? 'Live preview' : 'Output' }}</p>
-              <iframe v-if="pgCurrent.mode === 'browser'" class="preview" :srcdoc="pg.preview" sandbox="allow-scripts" title="Live preview of your HTML"></iframe>
-              <div v-else class="output" role="status" aria-live="polite">
-                <p v-if="pg.running" class="muted">Running…</p>
-                <p v-else-if="pg.error" class="err">{{ pg.error }}</p>
-                <template v-else-if="pg.out">
-                  <pre v-if="pg.out.compile" class="err">{{ pg.out.compile }}</pre>
-                  <pre v-if="pg.out.stdout">{{ pg.out.stdout }}</pre>
-                  <pre v-if="pg.out.stderr" class="err">{{ pg.out.stderr }}</pre>
-                  <pre v-if="pg.out.message" class="err">{{ pg.out.message }}</pre>
-                  <p v-if="!pg.out.stdout && !pg.out.stderr && !pg.out.compile && !pg.out.message" class="muted">(no output)</p>
-                  <p class="foot" :class="pg.out.ok ? 'okc' : 'errc'">{{ pg.out.status }}<span v-if="pg.out.time"> · {{ pg.out.time }}s</span></p>
-                </template>
-                <p v-else class="muted">Press <b>Run ▶</b> to see output here.</p>
-              </div>
-            </div>
-          </div>
-
-          <p class="tag mt-4 max-w-3xl">
-            HTML and JavaScript run only in your browser. Other languages are sent to the public Judge0 sandbox to compile and run (limited time, memory and no network), so don't paste anything private.
-          </p>
-        </div>
-      </section>
-
       <!-- CREDENTIALS -->
       <section id="credentials" class="section">
         <p class="eyebrow" v-reveal>credentials</p>
         <h2 class="section-title" v-reveal="60">Learning in public.</h2>
-        <div class="grid md:grid-cols-2 gap-5">
+        <div class="grid gap-5" :class="c.credentials.experience.length ? 'md:grid-cols-2' : ''">
           <div class="card" v-reveal>
             <h3 class="font-display font-semibold text-lg mb-5">Certifications &amp; training</h3>
             <ul class="tl">
-              <li v-for="x in c.credentials.certs" :key="x.name">
-                <a v-if="x.url" :href="x.url" target="_blank" rel="noopener noreferrer" class="font-semibold hover:underline">{{ x.name }} ↗</a>
-                <span v-else class="font-semibold">{{ x.name }}</span>
-                <p class="tag mt-0.5">{{ x.issuer }} · {{ x.year }}</p>
+              <li v-for="x in c.credentials.certs" :key="x.name" class="cert">
+                <a v-if="x.image" :href="x.image" target="_blank" rel="noopener noreferrer" class="cert-thumb" :aria-label="'View the ' + x.name + ' certificate'">
+                  <img :src="x.image" :alt="x.name + ' certificate from ' + x.issuer" loading="lazy">
+                </a>
+                <div class="min-w-0">
+                  <a v-if="x.url" :href="x.url" target="_blank" rel="noopener noreferrer" class="font-semibold hover:underline">{{ x.name }} ↗</a>
+                  <span v-else class="font-semibold">{{ x.name }}</span>
+                  <p class="tag mt-0.5">{{ x.issuer }} · {{ x.year }}</p>
+                  <a v-if="x.image" :href="x.image" target="_blank" rel="noopener noreferrer" class="tag underline" style="color:var(--accent)">View certificate ↗</a>
+                </div>
               </li>
             </ul>
           </div>
-          <div class="card" v-reveal="100">
+          <div v-if="c.credentials.experience.length" class="card" v-reveal="100">
             <h3 class="font-display font-semibold text-lg mb-5">Experience, orgs &amp; events</h3>
             <ul class="tl">
               <li v-for="x in c.credentials.experience" :key="x.role">
@@ -366,6 +383,18 @@
               </li>
             </ul>
           </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS (hidden until there are real quotes in content.js) -->
+      <section v-if="testimonials.length" id="testimonials" class="section">
+        <p class="eyebrow" v-reveal>testimonials</p>
+        <h2 class="section-title" v-reveal="60">What my teammates say.</h2>
+        <div class="grid md:grid-cols-3 gap-5">
+          <figure v-for="(q, i) in testimonials" :key="q.name" class="card quote" v-reveal="i * 80">
+            <blockquote class="leading-relaxed">{{ q.quote }}</blockquote>
+            <figcaption class="mt-4"><span class="font-semibold">{{ q.name }}</span><span class="tag block mt-0.5">{{ q.role }}</span></figcaption>
+          </figure>
         </div>
       </section>
 
@@ -424,7 +453,9 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="assets/js/content.js"></script>
   <script src="assets/js/dsa.js"></script>
-  <script src="assets/js/playground.js"></script>
+  <script src="assets/js/programs.js"></script>
+  <script src="assets/js/ports.js"></script>
+  <script src="assets/js/showcase.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/bg.js"></script>
 </body>

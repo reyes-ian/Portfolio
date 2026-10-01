@@ -6,7 +6,7 @@ const app = createApp({
   setup() {
     const c = window.PORTFOLIO;
     const dsa = window.createDsa(Vue);
-    const play = window.createPlayground(Vue);
+    const show = window.createShowcase(Vue);
     const dark = ref(document.documentElement.classList.contains("dark"));
     const open = ref(0);
     const active = ref("top");
@@ -15,13 +15,15 @@ const app = createApp({
     const form = reactive({ name: "", email: "", message: "", website: "" });
     const bar = ref(null);
 
+
+    const testimonials = (c.testimonials || []).filter((q) => q.approved === true);
     const nav = [
       { id: "about", label: "About" },
       { id: "skills", label: "Skills" },
       { id: "projects", label: "Projects" },
-      { id: "lab", label: "DSA Lab" },
       { id: "playground", label: "Playground" },
       { id: "credentials", label: "Credentials" },
+      ...(testimonials.length ? [{ id: "testimonials", label: "Testimonials" }] : []),
       { id: "contact", label: "Contact" },
     ];
 
@@ -132,7 +134,7 @@ const app = createApp({
       }
     }
 
-    return { ...dsa, ...play, c, dark, open, active, nav, initials, firstName, form, status, feedback, bar, typed, typingCmd, toggleTheme, glow, send, warmToken, year: new Date().getFullYear() };
+    return { ...dsa, ...show, testimonials, c, dark, open, active, nav, initials, firstName, form, status, feedback, bar, typed, typingCmd, toggleTheme, glow, send, warmToken, year: new Date().getFullYear() };
   },
 });
 

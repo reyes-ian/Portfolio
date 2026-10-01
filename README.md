@@ -10,7 +10,7 @@ Personal portfolio: a fast, responsive, accessible single page built with **Vue 
 
 ## Edit your content
 
-Everything is in [assets/js/content.js](assets/js/content.js). Replace the `[BRACKETED]` placeholders; empty links hide themselves. Put your résumé at `assets/resume.pdf` and screenshots in `assets/img/`.
+Everything is in [assets/js/content.js](assets/js/content.js). Edit the entries there; anything left empty (résumé, LinkedIn, demo links) is hidden automatically. To show the résumé button, put your PDF at `assets/resume.pdf` and set `resume` in that file. Teammate testimonials only appear when an entry has `approved: true`. Screenshots go in `assets/img/`.
 
 ## Security notes
 

@@ -81,7 +81,7 @@ window.createDsa = function (Vue) {
   const algoList = Object.entries(algos).map(([id, a]) => ({ id, name: a.name }));
 
   /* ---------- sorting state ---------- */
-  const lab = reactive({ tab: "sort" });
+  const lab = reactive({ tab: "programs" });
   const sort = reactive({ algo: "bubble", size: 32, speed: 70, arr: randArr(32), cmp: [], swp: [], sorted: [], running: false, finished: false, comps: 0, writes: 0 });
   const algoInfo = computed(() => algos[sort.algo]);
   let gen = null, token = 0;
